@@ -1,7 +1,7 @@
 // EditComponent.vue
 
 <template>
-  <div>
+  <div class="container">
     <h1>Edit Post</h1>
     <form @submit.prevent="updatePost">
       <div class="row">

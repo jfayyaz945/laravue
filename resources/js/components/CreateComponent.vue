@@ -1,7 +1,7 @@
 // CreatePost.vue
 
 <template>
-  <div>
+  <div class="container">
     <h1>Create A Post</h1>
     <form @submit.prevent="addPost">
       <div class="row">

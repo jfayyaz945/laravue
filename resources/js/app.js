@@ -1,45 +1,26 @@
 // app.js
-
 require('./bootstrap');
-
-window.Vue = require('vue');
-
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
-
-import VueAxios from 'vue-axios';
-import axios from 'axios';
-
-import App from './App.vue';
-Vue.use(VueAxios, axios);
-
-import HomeComponent from './components/HomeComponent.vue';
-import CreateComponent from './components/CreateComponent.vue';
-import IndexComponent from './components/IndexComponent.vue';
-import EditComponent from './components/EditComponent.vue';
-
-const routes = [
-  {
-      name: 'home',
-      path: '/',
-      component: HomeComponent
-  },
-  {
-      name: 'create',
-      path: '/create',
-      component: CreateComponent
-  },
-  {
-      name: 'posts',
-      path: '/posts',
-      component: IndexComponent
-  },
-  {
-      name: 'edit',
-      path: '/edit/:id',
-      component: EditComponent
-  }
-];
-
-const router = new VueRouter({ mode: 'history', routes: routes});
-const app = new Vue(Vue.util.extend({ router }, App)).$mount('#app');
+import 'es6-promise/auto'
+import axios from 'axios'
+import Vue from 'vue'
+import VueAuth from '@websanova/vue-auth'
+import VueAxios from 'vue-axios'
+import VueRouter from 'vue-router'
+import Index from './Index'
+import auth from './auth'
+import router from './router'
+// Set Vue globally
+window.Vue = Vue
+// Set Vue router
+Vue.router = router
+Vue.use(VueRouter)
+// Set Vue authentication
+Vue.use(VueAxios, axios)
+axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api/v1`
+Vue.use(VueAuth, auth)
+// Load Index
+Vue.component('index', Index)
+const app = new Vue({
+  el: '#app',
+  router
+});
