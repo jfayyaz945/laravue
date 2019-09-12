@@ -2938,6 +2938,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2953,6 +2964,30 @@ __webpack_require__.r(__webpack_exports__);
         _this.$router.push({
           name: 'posts'
         });
+      });
+    },
+    onImageChange: function onImageChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createImage(files[0]);
+    },
+    createImage: function createImage(file) {
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = function (e) {
+        vm.image = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    },
+    uploadImage: function uploadImage() {
+      axios.post('/image/store', {
+        image: this.image
+      }).then(function (response) {
+        if (response.data.success) {
+          alert(response.data.success);
+        }
       });
     }
   }
@@ -40630,6 +40665,36 @@ var render = function() {
                 }
               })
             ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _vm.image
+            ? _c("div", { staticClass: "col-md-3" }, [
+                _c("img", {
+                  staticClass: "img-responsive",
+                  attrs: { src: _vm.image, height: "70", width: "90" }
+                })
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "file" },
+              on: { change: _vm.onImageChange }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-3" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success btn-block",
+                on: { click: _vm.uploadImage }
+              },
+              [_vm._v("Upload Image")]
+            )
           ])
         ]),
         _c("br"),

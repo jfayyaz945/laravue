@@ -19,6 +19,17 @@
               <textarea class="form-control" v-model="post.body" rows="5"></textarea>
             </div>
           </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3" v-if="image">
+              <img :src="image" class="img-responsive" height="70" width="90">
+            </div>
+          <div class="col-md-6">
+              <input type="file" v-on:change="onImageChange" class="form-control">
+          </div>
+          <div class="col-md-3">
+              <button class="btn btn-success btn-block" @click="uploadImage">Upload Image</button>
+          </div>
         </div><br />
         <div class="form-group">
           <button class="btn btn-primary">Create</button>
@@ -40,7 +51,28 @@
             this.axios.post(uri, this.post).then((response) => {
             this.$router.push({name: 'posts'});
             });
-        }
+      },
+      onImageChange(e) {
+          let files = e.target.files || e.dataTransfer.files;
+          if (!files.length)
+              return;
+          this.createImage(files[0]);
+      },
+      createImage(file) {
+          let reader = new FileReader();
+          let vm = this;
+          reader.onload = (e) => {
+              vm.image = e.target.result;
+          };
+          reader.readAsDataURL(file);
+      },
+      uploadImage(){
+          axios.post('/image/store',{image: this.image}).then(response => {
+              if (response.data.success) {
+                alert(response.data.success);
+              }
+          });
+      }
     }
   }
 </script>

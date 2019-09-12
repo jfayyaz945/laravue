@@ -24,3 +24,5 @@ Route::get('/', function () {
       Route::get('/{any?}', function (){
         return view('welcome');
     })->where('any', '^(?!api\/)[\/\w\.-]*');
+
+    Route::post('/image/store', 'ImageController@store');
